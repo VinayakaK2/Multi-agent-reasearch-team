@@ -1,148 +1,234 @@
-# 🧠 Multi-Agent Research Team
+# 🧠 Multi-Agent Research Team (MART)
 
-A **Multi-Agent Research Team** is a collaborative system composed of specialized AI agents that work together to perform end-to-end research tasks: from problem understanding and information gathering to synthesis, validation, and final reporting.  
-This project demonstrates how autonomous agents can coordinate, communicate, and critique each other to produce **high-quality, reliable research outputs**.
+A **Multi-Agent Research Team** is a collaborative AI system where multiple specialized agents work together to perform complex research tasks with higher accuracy, better reasoning, and built-in verification.
 
----
+This README provides a **clean, proper, production-ready overview** of the project—written the way a real open-source or academic project expects.
 
-## 📌 Overview
+---------------------------------------------------------------------
 
-Traditional single-agent systems struggle with complex research due to limited perspective and lack of self-verification.  
-This system overcomes those limitations by decomposing research into **distinct cognitive roles**, each handled by a dedicated agent.
+## 📌 What This Project Is
 
-**Core idea:**  
-> Divide intelligence by responsibility, then integrate results through structured coordination.
+This project implements a **role-based multi-agent architecture** for research and analysis tasks.
 
----
+Instead of relying on a single AI model to:
+- search,
+- reason,
+- verify,
+- and write,
 
-## 🧩 Architecture
+the workload is **distributed across multiple agents**, each with a clearly defined responsibility—similar to a real human research team.
 
-The system follows a **role-based multi-agent architecture**.
+---------------------------------------------------------------------
 
-### 🔹 Agents and Responsibilities
+## 🎯 Motivation
 
-| Agent | Role |
-|------|------|
-| **Coordinator Agent** | Manages task flow, assigns subtasks, resolves conflicts |
-| **Research Agent(s)** | Collect information from trusted sources |
-| **Analysis Agent** | Synthesizes findings, identifies patterns and gaps |
-| **Critic / Verifier Agent** | Checks logic, factual accuracy, and consistency |
-| **Writer / Reporter Agent** | Produces structured, human-readable output |
-| **Memory Agent (Optional)** | Stores intermediate knowledge and context |
+Single-agent AI systems suffer from:
+- Hallucinations
+- Shallow reasoning
+- No self-verification
+- Poor long-form coherence
 
----
+This system addresses those problems by:
+- Parallelizing intelligence
+- Enforcing separation of concerns
+- Introducing internal critique and validation
+- Making reasoning explicit and inspectable
 
-## 🔄 Workflow
+---------------------------------------------------------------------
 
-1. **Task Intake**
-   - User submits a research question or objective.
-2. **Task Decomposition**
-   - Coordinator splits the task into subtasks.
-3. **Parallel Research**
-   - Research agents gather information independently.
-4. **Synthesis & Reasoning**
-   - Analysis agent combines findings.
-5. **Validation**
-   - Critic agent challenges assumptions and verifies claims.
-6. **Final Output**
-   - Writer agent produces the final report.
-7. **Iteration (Optional)**
-   - Feedback loop refines the output.
+## 🧩 Core Idea
 
----
+> **Research is a team activity.  
+> Intelligence scales better when divided by responsibility.**
 
-## ⚙️ Key Features
+Each agent focuses on *one cognitive role* and communicates through structured messages under the supervision of a coordinator.
 
-- ✅ **Parallelism** – Faster research through concurrent agents  
-- ✅ **Self-Critique** – Built-in verification reduces hallucinations  
-- ✅ **Modularity** – Add or remove agents easily  
-- ✅ **Scalability** – Supports simple queries to large research tasks  
-- ✅ **Explainability** – Clear reasoning trail across agents  
+---------------------------------------------------------------------
 
----
+## 🏗️ System Architecture
 
-## 🏗️ Project Structure
+The system follows a **Coordinator–Worker architecture**.
 
-```text
-multi-agent-research/
+### Agent Roles
+
+1. **Coordinator Agent**
+2. **Research Agents**
+3. **Analysis Agent**
+4. **Critic / Verifier Agent**
+5. **Writer Agent**
+6. **Memory Agent (optional)**
+
+Each agent is autonomous but aligned through coordination logic.
+
+---------------------------------------------------------------------
+
+## 🤖 Agent Responsibilities
+
+### 1. Coordinator Agent
+Responsible for orchestration.
+
+- Receives user query
+- Breaks query into subtasks
+- Assigns tasks to agents
+- Controls execution order
+- Handles retries and conflicts
+- Decides when the task is complete
+
+---------------------------------------------------------------------
+
+### 2. Research Agent
+Responsible for information gathering only.
+
+- Searches trusted sources
+- Collects raw facts and data
+- Avoids reasoning or conclusions
+- Returns source-backed findings
+
+Multiple research agents can run in parallel to reduce bias.
+
+---------------------------------------------------------------------
+
+### 3. Analysis Agent
+Responsible for reasoning and synthesis.
+
+- Combines outputs from research agents
+- Identifies trends, patterns, and gaps
+- Resolves contradictions
+- Produces structured intermediate conclusions
+
+---------------------------------------------------------------------
+
+### 4. Critic / Verifier Agent
+Responsible for quality control.
+
+- Verifies factual correctness
+- Challenges weak assumptions
+- Detects hallucinations
+- Checks logical consistency
+- Requests re-analysis if needed
+
+Acts as an internal peer reviewer.
+
+---------------------------------------------------------------------
+
+### 5. Writer Agent
+Responsible for final presentation.
+
+- Converts validated analysis into readable text
+- Organizes content into sections
+- Maintains neutral and clear tone
+- Produces the final report
+
+---------------------------------------------------------------------
+
+### 6. Memory Agent (Optional)
+Responsible for context persistence.
+
+- Stores intermediate knowledge
+- Maintains short-term and long-term memory
+- Enables semantic retrieval
+- Supports iterative refinement
+
+---------------------------------------------------------------------
+
+## 🔄 Execution Flow
+
+1. User submits a research query
+2. Coordinator analyzes and decomposes the task
+3. Research agents gather information in parallel
+4. Analysis agent synthesizes findings
+5. Critic agent validates logic and facts
+6. Writer agent generates final output
+7. Coordinator checks completion
+8. Optional iteration for improvement
+
+---------------------------------------------------------------------
+
+multi_agent_research/
 │
 ├── agents/
-│   ├── coordinator.py
-│   ├── researcher.py
-│   ├── analyst.py
-│   ├── critic.py
-│   └── writer.py
+│ ├── coordinator.py
+│ ├── researcher.py
+│ ├── analyst.py
+│ ├── critic.py
+│ └── writer.py
 │
 ├── memory/
-│   └── vector_store.py
+│ ├── short_term.py
+│ └── long_term.py
 │
 ├── tools/
-│   ├── web_search.py
-│   └── citation_manager.py
+│ ├── web_search.py
+│ ├── document_loader.py
+│ └── citation_manager.py
 │
 ├── configs/
-│   └── agent_config.yaml
+│ ├── agents.yaml
+│ └── system.yaml
+│
+├── logs/
 │
 ├── main.py
 └── README.md
 
 
-🧪 Example Use Case
+---------------------------------------------------------------------
 
-Input:
+## ⚙️ Design Principles
 
-“Analyze recent trends in renewable energy adoption and their economic impact.”
+- Separation of concerns
+- Explicit reasoning paths
+- Parallelism over monolithic thinking
+- Internal self-critique
+- Modularity and extensibility
+- Human-interpretable outputs
 
-System Behavior:
+---------------------------------------------------------------------
 
-Research agents gather data from different regions.
+## ✅ Advantages
 
-Analysis agent compares trends and metrics.
+- Reduced hallucinations
+- Higher factual accuracy
+- Deeper reasoning quality
+- Easier debugging
+- Scales with task complexity
+- Mimics real-world research teams
 
-Critic agent validates statistics and assumptions.
+---------------------------------------------------------------------
 
-Writer agent delivers a concise, structured report.
+## ⚠️ Limitations
 
-🚀 Getting Started
-Prerequisites
+- Higher computational cost
+- Increased latency vs single-agent systems
+- More complex coordination logic
+- Requires careful agent design
 
-Python 3.9+
+---------------------------------------------------------------------
 
-API keys for LLMs (if applicable)
+## 🔮 Future Improvements
 
-Installation
-git clone https://github.com/your-org/multi-agent-research
-cd multi-agent-research
-pip install -r requirements.txt
+- Dynamic agent creation
+- Learning-based coordination
+- Confidence-weighted consensus
+- Domain-specific expert agents
+- Visualization of agent interactions
 
-Run
-python main.py
+---------------------------------------------------------------------
 
-🧠 Design Principles
+## 📜 License
 
-Separation of Concerns
+MIT License — free to use, modify, and distribute.
 
-Agent Autonomy with Coordination
+---------------------------------------------------------------------
 
-Explicit Reasoning and Verification
+## 🧠 Final Note
 
-Human-Readable Outputs
+This project treats **intelligence as a system, not a single model**.
 
-🔮 Future Enhancements
+By combining specialization, parallelism, and internal critique, the Multi-Agent Research Team produces outputs that are **more reliable, explainable, and closer to human research standards**.
 
-Dynamic agent creation based on task complexity
+---------------------------------------------------------------------
 
-Reinforcement learning for better agent coordination
 
-Visual dashboards for agent interactions
+## 🗂️ Project Structure
 
-Domain-specific research agents
-
-📜 License
-
-MIT License. Free to use, modify, and distribute.
-
-📣 Final Note
-
-This project is not just a tool—it is a research paradigm.
-By treating intelligence as a team sport, the system achieves depth, accuracy, and robustness that single-agent approaches struggle to match. 🚀
